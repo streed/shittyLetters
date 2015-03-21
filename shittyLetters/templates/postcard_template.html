@@ -1,0 +1,72 @@
+<html>
+<head>
+<title>ShittyLetter Postcard</title>
+<style>
+  *, *:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+  .postcard-body {
+    width:6.25in;
+    height:4.25in;
+    margin:0;
+    padding:0;
+  }
+
+  #safe-area {
+    position: absolute;
+    width: 5.875in;
+    height: 3.875in;
+    left: 0.1875in;
+    top: 0.1875in;
+    background-color: rgba(255,255,255,0.5);
+  }
+
+  .line {
+    position: absolute;
+    width: 1px;
+    height: 3.5in;
+    left: 3.125in;
+    border-left: 1px solid black;
+  }
+
+  .message {
+    position: absolute;
+    width: 3in;
+    height: 3in;
+    left: 0;
+    top: 0.5in;
+    font-family: sans-serif;
+  }
+
+  .to {
+    position: absolute;
+    width: 2in;
+    height: 1in;
+    left: 3.5in;
+    top: 2.25in;
+    font-family: sans-serif;
+  }
+</style>
+</head>
+
+<body class="postcard-body">
+  <div id="safe-area">
+    <div class="message">
+      {{message}}
+    </div>
+    <div class="line"></div>
+    <div class="to">
+      {{ full_name }}<br/>
+      {{ address1 }}<br/>
+      {% if address2 %}
+        {{ address2 }}<br />
+      {% endif %}
+      {{ city }}, {{ state }} {{ zipcode }}<br/>
+      {{ country }}
+    </div>
+  </div>
+</body>
+</html>
