@@ -27,26 +27,30 @@ def postcard():
   messages = get_messages()
   postcardRequest = request.json
 
-  error, message = chargeCard(postcardRequest["card_token"], postcardRequest["email"])
+  error, charge = chargeCard(postcardRequest["card_token"], postcardRequest["email"])
 
   if not error:
-    return sendPostCard(postcardRequest)
+    error, message = sendPostCard(postcardRequest)
+    if not error:
+      charge.capture()
+      return {"message": "success"}
   else:
     # Something is fucked
-    return jsonify(message)
+    return jsonify(charge)
 
 def chargeCard(card_token, receipt_email):
   print receipt_email
   try:
-    stripe.Charge.create(
+    charge = stripe.Charge.create(
         amount=COST_OF_POSTCARD_IN_CENTS,
         currency="usd",
         source=card_token,
         description="Charge for Sassy Postcard",
         statement_descriptor="SL Postcard",
-        receipt_email=receipt_email
+        receipt_email=receipt_email,
+        capture=False
     )
-    return False, {}
+    return False, charge
   except stripe.error.CardError as e:
     return True, e.json_body
   except stripe.error.InvalidRequestError, e:
@@ -82,7 +86,7 @@ def sendPostCard(postcardRequest):
       front=buildFront(),
       back=buildBack(postcardRequest))
 
-  return jsonify({"hello": "world"})
+  return False, jsonify({"hello": "world"})
 
 def buildFront():
   return "<html></html>"
