@@ -13,7 +13,7 @@ lob.api_version = '2014-12-18'
 COST_OF_POSTCARD_IN_CENTS = int(2.50 * 100)
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'this is a very secret key :)'
+app.config['SECRET_KEY'] = os.environ["SECRET_KEY"]
 
 def get_messages():
     return ["Slut", "Whore", "Cunt"]
@@ -33,13 +33,23 @@ def postcard():
     error, message = sendPostCard(postcardRequest)
     if not error:
       charge.capture()
-      return {"message": "success"}
+      return jsonify({"message": "success"})
+    else:
+      return jsonify({"message": "error"})
   else:
     # Something is fucked
     return jsonify(charge)
 
+@app.route("/verify_address", methods=["POST"])
+def verify_address():
+  address = address_to_dict(request.json)
+  try:
+    verification = lob.Verification.create(**address)
+    return jsonify(verification["address"])
+  except lob.error.InvalidRequestError, e:
+    return jsonify({"error": "Please check the address. Something maybe missing or incorrect. We don't want your poastcard going to someone undeserving now do we?"})
+
 def chargeCard(card_token, receipt_email):
-  print receipt_email
   try:
     charge = stripe.Charge.create(
         amount=COST_OF_POSTCARD_IN_CENTS,
@@ -68,17 +78,19 @@ def chargeCard(card_token, receipt_email):
     # yourself an email
     return True, e.json_body
 
-def sendPostCard(postcardRequest):
-  address = dict(
-      name=postcardRequest["full_name"],
-      address_line1=postcardRequest["address1"],
-      address_line2=postcardRequest["address2"],
-      address_city=postcardRequest["city"],
-      address_state=postcardRequest["state"],
-      address_zip=postcardRequest["postal_code"],
+def address_to_dict(req):
+  return dict(
+      address_line1=req["address1"],
+      address_line2=req["address2"],
+      address_city=req["city"],
+      address_state=req["state"],
+      address_zip=req["postal_code"],
       address_country="US"
   )
 
+def sendPostCard(postcardRequest):
+  address = address_to_dict(postcardRequest)
+  address["name"] = postcardRequest["full_name"]
   card = lob.Postcard.create(
       to_address=address,
       from_address=address,
