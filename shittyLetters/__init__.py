@@ -80,6 +80,18 @@ def verify_address():
   except lob.error.InvalidRequestError, e:
     return jsonify({"error": "Please check the address. Something maybe missing or incorrect. We don't want your poastcard going to someone undeserving now do we?"})
 
+@app.route("/success")
+def success():
+  return render_template('success.html')
+
+@app.route("/about")
+def about():
+  return render_template("about.html")
+
+@app.route("/questions")
+def questions():
+  return render_template("questions.html")
+
 def chargeCard(card_token, receipt_email):
   try:
     charge = stripe.Charge.create(

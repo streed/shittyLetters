@@ -20,12 +20,12 @@
         </div>
         <div class="line"></div>
         <div class="to">
-          {{full_name}}<br/>
-          {{address1}}<br/>
+          {{defaultValue full_name "Shitty Person"}}<br/>
+          {{defaultValue address1 "123 Shitty St"}}<br/>
           {{#if address2}}
           {{address2}}<br />
           {{/if}}
-          {{city}}, {{state}} {{postal_code}}<br/>
+          {{defaultValue city "Shitsville"}}, {{defaultValue state "SH"}} {{defaultValue postal_code "12345"}}<br/>
           US
         </div>
       </div>
@@ -42,28 +42,28 @@
             <div class="control-group">
               <label class="control-label">Full Name</label>
               <div class="controls">
-                <input id="full-name" name="full-name" type="text" placeholder="full name" class="input-medium address" value="Deserving McPhearson">
+                <input id="full-name" name="full-name" type="text" class="input-medium address" placeholder="Full Name">
                 <p class="help-block"></p>
               </div>
             </div>
             <div class="control-group">
               <label class="control-label">Address Line 1</label>
               <div class="controls">
-                <input id="address-line1" name="address-line1" type="text" placeholder="address line 1" class="input-medium address" value="123 Not Expecting Ln">
+                <input id="address-line1" name="address-line1" type="text" class="input-medium address" placeholder="Address 1">
                 <p class="help-block">Street address, P.O. box, company name, c/o</p>
               </div>
             </div>
             <div class="control-group">
               <label class="control-label">Address Line 2</label>
               <div class="controls">
-                <input id="address-line2" name="address-line2" type="text" placeholder="address line 2" class="input-medium address" value="A Postcard Really?">
+                <input id="address-line2" name="address-line2" type="text" class="input-medium address" placeholder="Address 2">
                 <p class="help-block">Apartment, suite , unit, building, floor, etc.</p>
               </div>
             </div>
             <div class="control-group">
               <label class="control-label">City / Town</label>
               <div class="controls">
-                <input id="city" name="city" type="text" placeholder="city" class="input-medium address" value="SassyVille">
+                <input id="city" name="city" type="text" class="input-medium address" placeholder="City">
                 <p class="help-block"></p>
               </div>
             </div>
@@ -126,11 +126,10 @@
                 <p class="help-block"></p>
               </div>
             </div>
-            <!-- postal-code input-->
             <div class="control-group">
               <label class="control-label">Zip / Postal Code</label>
               <div class="controls">
-                <input id="postal-code" name="postal-code" type="text" placeholder="zip or postal code" class="input-medium address" value="12345">
+                <input id="postal-code" name="postal-code" type="text" placeholder="zip or postal" code" class="input-medium address" maxlength="5">
                 <p class="help-block"></p>
               </div>
             </div>
@@ -254,6 +253,11 @@
 </div>
 {% endblock %}
 {% block custom_javascript %}
+Handlebars.registerHelper('defaultValue', function (value, defaultValue) {
+  var out = value || defaultValue;
+  return new Handlebars.SafeString(out);
+});
+
 $(document).ready(function(){
   $('.carousel').carousel();
   $('.postcard-buy').hide();
@@ -262,6 +266,7 @@ $(document).ready(function(){
   renderPreview();
 
   Stripe.setPublishableKey('pk_test_ikXDMh2P9wfEH1u8A5qQfFzr');
+
 
   $('.postcard-submit').click(function(e){
     e.preventDefault();
@@ -277,6 +282,7 @@ $(document).ready(function(){
       success: function(data) {
         if (data.error !== undefined) {
           $('.postcard-buy').hide();
+          $('.preview-window').show()
           $('.postcard-address-errors').show();
           $('.postcard-address-errors-body').html("<p class='text-danger'>" + data.error + "</p>");
         } else {
@@ -312,12 +318,10 @@ function renderPreview() {
     {% for phrase in phrases %}
       "{{phrase}}",
     {% endfor %}
-
     "Shitty Letters"
   ];
 
   var randomNumber = Math.floor(Math.random()*phrases.length);
-  console.log(randomNumber);
   request.message = phrases[randomNumber];
 
   $('.postcard-preview').html(template(request)); 
