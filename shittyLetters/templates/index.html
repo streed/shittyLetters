@@ -14,7 +14,9 @@
     <div class="postcard-body">
       <div id="safe-area">
         <div class="message">
-          Test message
+          <div class="message-inner">
+            {{message}}
+          </div>
         </div>
         <div class="line"></div>
         <div class="to">
@@ -255,6 +257,7 @@
 $(document).ready(function(){
   $('.carousel').carousel();
   $('.postcard-buy').hide();
+  $('.preview-window').show();
   $('.postcard-address-errors').hide();
   renderPreview();
 
@@ -305,6 +308,18 @@ function renderPreview() {
   var source = $("#postcard-template").html();
   var template = Handlebars.compile(source);
   var request = buildRequest();
+  var phrases = [
+    {% for phrase in phrases %}
+      "{{phrase}}",
+    {% endfor %}
+
+    "Shitty Letters"
+  ];
+
+  var randomNumber = Math.floor(Math.random()*phrases.length);
+  console.log(randomNumber);
+  request.message = phrases[randomNumber];
+
   $('.postcard-preview').html(template(request)); 
 }
 
