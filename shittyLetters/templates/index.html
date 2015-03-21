@@ -285,7 +285,6 @@ $(document).ready(function(){
           $('.submit-button').click(function(e){
             e.preventDefault();
             $(this).toggleClass('disabled');
-            $('#pleaseWaitDialog').modal();
 
             Stripe.card.createToken({
               number: $('.card-number').val(),
@@ -322,6 +321,7 @@ function stripeResponseHandler(status, response) {
     $('.card-expiry-month').val("");
     $('.card-expiry-year').val("");
     $(".payment-errors").html(""); 
+    $('#pleaseWaitDialog').modal();
     var token = response["id"]
 
     postcardRequest = buildRequest();
