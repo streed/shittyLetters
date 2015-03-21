@@ -3,20 +3,33 @@
 {% block content %}
 <div class="container">
   <div class="jumbotron">
-    <div class="row">
-      <div id="shittyCarousel" class="carousel slide carousel-fade row offset4 span4">
-        <div class="carousel-inner">
-          <div class="active item"><img src="https://s3.amazonaws.com/gameguin/static/img/Gameguin_logo.png"></div>
-          <div class="item"><img src="https://s3.amazonaws.com/gameguin/static/img/games/Gameguin_tf2.png"></div>
-          <div class="item"><img src="https://s3.amazonaws.com/gameguin/static/img/games/Gameguin_cs.png"></div>
+    <div class="row"> 
+      <h2>Giving a friend or family member some sass?</h2>
+      <h2>Do you wanna turn your sass game up?</h2>
+      <p class="lead">Send them a shitty letter from Shitty Letters. Fill out the form below and for $2.50 we'll mail out a random sassy or offensive phrase on a postcard to them.</p>
+    </div>
+  </div>
+  {% raw %}
+  <script id="postcard-template" type="text/x-handlebars-template">
+    <div class="postcard-body">
+      <div id="safe-area">
+        <div class="message">
+          Test message
+        </div>
+        <div class="line"></div>
+        <div class="to">
+          {{full_name}}<br/>
+          {{address1}}<br/>
+          {{#if address2}}
+          {{address2}}<br />
+          {{/if}}
+          {{city}}, {{state}} {{postal_code}}<br/>
+          US
         </div>
       </div>
     </div>
-    <div class="row"> 
-      <h2>Does someone deserve one of these postcards?</h2>
-      <p class="lead">Then you're in the right place.</p>
-    </div>
-  </div>
+  </script>
+  {% endraw %}
   <div class="row">
       <div class="col-lg-4">
         <div class="form-horizontal postcard-destination-form">
@@ -27,71 +40,70 @@
             <div class="control-group">
               <label class="control-label">Full Name</label>
               <div class="controls">
-                <input id="full-name" name="full-name" type="text" placeholder="full name"
-                                                                   class="input-xlarge">
+                <input id="full-name" name="full-name" type="text" placeholder="full name" class="input-medium address" value="Deserving McPhearson">
                 <p class="help-block"></p>
               </div>
             </div>
             <div class="control-group">
               <label class="control-label">Address Line 1</label>
               <div class="controls">
-                <input id="address-line1" name="address-line1" type="text" placeholder="address line 1" class="input-xlarge">
+                <input id="address-line1" name="address-line1" type="text" placeholder="address line 1" class="input-medium address" value="123 Not Expecting Ln">
                 <p class="help-block">Street address, P.O. box, company name, c/o</p>
               </div>
             </div>
             <div class="control-group">
               <label class="control-label">Address Line 2</label>
               <div class="controls">
-                <input id="address-line2" name="address-line2" type="text" placeholder="address line 2" class="input-xlarge">
+                <input id="address-line2" name="address-line2" type="text" placeholder="address line 2" class="input-medium address" value="A Postcard Really?">
                 <p class="help-block">Apartment, suite , unit, building, floor, etc.</p>
               </div>
             </div>
             <div class="control-group">
               <label class="control-label">City / Town</label>
               <div class="controls">
-                <input id="city" name="city" type="text" placeholder="city" class="input-xlarge">
+                <input id="city" name="city" type="text" placeholder="city" class="input-medium address" value="SassyVille">
                 <p class="help-block"></p>
               </div>
             </div>
             <div class="control-group">
               <label class="control-label">State</label>
               <div class="controls">
-                <select id="region" name="region" class="form-control col-sm-2">
-                  <option value="AL">AL</option>
+                <select id="region" name="region" class="form-control col-sm-2 address">
                   <option value="AK">AK</option>
-                  <option value="AZ">AZ</option>
+                  <option value="AL">AL</option>
                   <option value="AR">AR</option>
+                  <option value="AZ">AZ</option>
                   <option value="CA">CA</option>
                   <option value="CO">CO</option>
                   <option value="CT">CT</option>
-                  <option value="DE">DE</option>
                   <option value="DC">DC</option>
+                  <option value="DE">DE</option>
                   <option value="FL">FL</option>
                   <option value="GA">GA</option>
                   <option value="HI">HI</option>
+                  <option value="IA">IA</option>
                   <option value="ID">ID</option>
                   <option value="IL">IL</option>
                   <option value="IN">IN</option>
-                  <option value="IA">IA</option>
                   <option value="KS">KS</option>
                   <option value="KY">KY</option>
                   <option value="LA">LA</option>
-                  <option value="ME">ME</option>
-                  <option value="MD">MD</option>
                   <option value="MA">MA</option>
+                  <option value="MD">MD</option>
+                  <option value="ME">ME</option>
                   <option value="MI">MI</option>
                   <option value="MN">MN</option>
-                  <option value="MS">MS</option>
                   <option value="MO">MO</option>
+                  <option value="MS">MS</option>
                   <option value="MT">MT</option>
+                  <option value="NC">NC</option>
+                  <option value="ND">ND</option>
                   <option value="NE">NE</option>
-                  <option value="NV">NV</option>
                   <option value="NH">NH</option>
                   <option value="NJ">NJ</option>
                   <option value="NM">NM</option>
+                  <option value="NV">NV</option>
                   <option value="NY">NY</option>
-                  <option value="NC">NC</option>
-                  <option value="ND">ND</option>
                   <option value="OH">OH</option>
                   <option value="OK">OK</option>
                   <option value="OR">OR</option>
@@ -102,11 +114,11 @@
                   <option value="TN">TN</option>
                   <option value="TX">TX</option>
                   <option value="UT">UT</option>
-                  <option value="VT">VT</option>
                   <option value="VA">VA</option>
+                  <option value="VT">VT</option>
                   <option value="WA">WA</option>
-                  <option value="WV">WV</option>
                   <option value="WI">WI</option>
+                  <option value="WV">WV</option>
                   <option value="WY">WY</option>
                 </select>
                 <p class="help-block"></p>
@@ -116,20 +128,22 @@
             <div class="control-group">
               <label class="control-label">Zip / Postal Code</label>
               <div class="controls">
-                <input id="postal-code" name="postal-code" type="text" placeholder="zip or postal code" class="input-xlarge">
+                <input id="postal-code" name="postal-code" type="text" placeholder="zip or postal code" class="input-medium address" value="12345">
                 <p class="help-block"></p>
               </div>
             </div>
-            <button class="btn postcard-submit">Buy Postcard</button>
+            <button class="btn postcard-submit">Order Postcard</button>
           </fieldset>
         </div>
       </div>
       <div class="col-lg-8">
         <div class='preview-window'>
           <div class="page-header">
-            <h2>Preview</h2>
+            <h2>Sample</h2>
           </div>
-          <div class="postcard-preview">
+          <div class="panel postcard-body">
+            <div class="postcard-preview">
+            </div>
           </div>
             <div class='postcard-address-errors panel panel-danger'>
               <div class='panel-heading'>
@@ -242,6 +256,7 @@ $(document).ready(function(){
   $('.carousel').carousel();
   $('.postcard-buy').hide();
   $('.postcard-address-errors').hide();
+  renderPreview();
 
   Stripe.setPublishableKey('pk_test_ikXDMh2P9wfEH1u8A5qQfFzr');
 
@@ -283,7 +298,16 @@ $(document).ready(function(){
       }
     });
   });
+
+  $('.address').change(renderPreview);
 });
+
+function renderPreview() {
+  var source = $("#postcard-template").html();
+  var template = Handlebars.compile(source);
+  var request = buildRequest();
+  $('.postcard-preview').html(template(request)); 
+}
 
 function stripeResponseHandler(status, response) {
   if (response.error) {
