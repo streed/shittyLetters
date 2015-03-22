@@ -35,9 +35,18 @@ def setup_db(seed=False):
   db.create_all()
 
   if seed:
-    db.session.add(Message("Slut", 0, 0))
-    db.session.add(Message("Cunt", 0, 0))
+    db.session.add(Message("It's not the dress that makes you look fat, it's the fat.", 0, 0))
+    db.session.add(Message("Sometimes I poop clear and think of you.", 0, 0))
     db.session.add(Message("#yolo", 0, 0))
+    db.session.add(Message("Your advice is like a fat guy telling you how to diet.", 0, 0))
+    db.session.add(Message("Your parents didnt abort you cus they were watching Bob Ross.", 0, 0))
+    db.session.add(Message("Follow your dreams because we love to see your disappointment.", 0, 0))
+    db.session.add(Message("We see you aren't getting enough post cards. Would you like more friends?", 0, 0))
+    db.session.add(Message("Every day you live a puppy dies. Dick", 0, 0))
+    db.session.add(Message("Post cards are our way of saying \"hahahaha\".", 0, 0))
+    db.session.add(Message("Second place is your throne.", 0, 0))
+    db.session.add(Message("Choo! Choo! Looks like your moms coming!", 0, 0))
+    db.session.add(Message("You confused with Ambitions with Ambitchons.", 0, 0))
     db.session.commit()
 
 def get_messages():
