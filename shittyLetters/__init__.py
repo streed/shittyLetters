@@ -39,7 +39,7 @@ def setup_db(seed=False):
     db.session.add(Message("Sometimes I poop clear and think of you.", 0, 0))
     db.session.add(Message("#yolo", 0, 0))
     db.session.add(Message("Your advice is like a fat guy telling you how to diet.", 0, 0))
-    db.session.add(Message("Your parents didnt abort you cus they were watching Bob Ross.", 0, 0))
+    db.session.add(Message("Your parents didn't abort you cus they were watching Bob Ross.", 0, 0))
     db.session.add(Message("Follow your dreams because we love to see your disappointment.", 0, 0))
     db.session.add(Message("We see you aren't getting enough post cards. Would you like more friends?", 0, 0))
     db.session.add(Message("Every day you live a puppy dies. Dick", 0, 0))
@@ -153,7 +153,7 @@ def sendPostCard(postcardRequest):
   return False, jsonify({"hello": "world"})
 
 def buildFront():
-  return "<html></html>"
+  return "https://s3.amazonaws.com/shittyletters/fronts/Ducky.png"
 
 def buildBack(postcardRequest):
   return render_template("postcard_template.html", message=random.choice(get_messages()), **postcardRequest)
