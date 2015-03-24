@@ -259,6 +259,7 @@ Handlebars.registerHelper('defaultValue', function (value, defaultValue) {
 });
 
 $(document).ready(function(){
+  mixpanel.track("Page Load");
   $('.carousel').carousel();
   $('.postcard-buy').hide();
   $('.preview-window').show();
@@ -270,6 +271,7 @@ $(document).ready(function(){
 
   $('.postcard-submit').click(function(e){
     e.preventDefault();
+    mixpanel.track("Postcard Order Start");
 
     $.ajax({
       type: 'POST',
@@ -334,6 +336,7 @@ function stripeResponseHandler(status, response) {
    $('.payment-errors').show();
    $('.payment-errors-body').html(response.error.message); 
   } else {
+    mixpanel.track("Successful Payment");
     $('.name').val(""); 
     $('.card-number').val("");
     $('.card-cvc').val("");
@@ -357,6 +360,7 @@ function stripeResponseHandler(status, response) {
       success: function(data) {
         if (data.message !== undefined) {
           if (data.message == "success") {
+            mixpanel.track("Postcard Order Finish");
             window.location.replace("/success");
           } else {
             $('#pleaseWaitDialog').modal('hide');
