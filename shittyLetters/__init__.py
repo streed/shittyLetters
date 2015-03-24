@@ -153,7 +153,9 @@ def sendPostCard(postcardRequest):
   return False, jsonify({"hello": "world"})
 
 def buildFront():
-  return "https://s3.amazonaws.com/shittyletters/fronts/Ducky.png"
+  fronts = ["https://s3.amazonaws.com/shittyletters/fronts/Kitty.png", "https://s3.amazonaws.com/shittyletters/fronts/Ducky.png"]
+  choice = random.choice(fronts)
+  return choice
 
 def buildBack(postcardRequest):
   return render_template("postcard_template.html", message=random.choice(get_messages()), **postcardRequest)
